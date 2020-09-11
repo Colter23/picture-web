@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <header id="header" ref="header">
 
+    <header id="header" ref="header">
       <div class="user" @click="detail">
         <img class="user-face" ref="userface" :src="$store.state.userInfo.userFace" alt="头像"/>
         <span class="user-name" ref="username">{{$store.state.userInfo.userName}}</span>
@@ -16,21 +16,30 @@
 
       <div v-if="!$store.state.userInfo.login&&headerUnfold">
         <form class="login">
-          <input class="login-input" placeholder="账号" type="text">
-          <input class="login-input" placeholder="密码" type="password">
+          <input class="login-input" v-model="account" placeholder="账号" type="text">
+          <input class="login-input" v-model="password" placeholder="密码" type="password">
         </form>
       </div>
-
     </header>
+
+    <water-fall :img-list="showImgList" :img-height="300"></water-fall>
+
   </div>
 </template>
 
 <script>
+import imglist from '../public/imglist.json'
+import WaterFall from "@/components/waterfall/WaterFall";
+
 export default {
+  components: {WaterFall},
   data: ()=>({
     headerUnfold: false,
-    tags: ['全部','qqqqqqqq'],
-    inputTag: ''
+    tags: ['全部','test'],
+    inputTag: '',
+    account: '',
+    password: '',
+    showImgList: imglist.list
   }),
   methods: {
     detail(){
@@ -61,13 +70,37 @@ export default {
 
 <style>
   @import "assets/css/base.css";
+
+  ::-webkit-scrollbar {
+    /*滚动条美化*/
+    width: 7px;
+    height: 7px;
+    background-color: #F5F5F5;
+    overflow-x: hidden;
+  }
+
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    background-color: #F5F5F5;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, .1);
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .1);
+    background-color: #c8c8c8;
+  }
+
   #header{
-    position: relative;
+    position: fixed;
     width: 100%;
     height: 70px;
     background: #64AFFB;
     border-radius: 0 0 20px 20px;
     box-shadow: rgba(0,0,0,0.5) 0 3px 5px;
+    z-index: 100;
   }
 
   @keyframes unfold-head
@@ -198,4 +231,6 @@ export default {
   .login-input::-webkit-input-placeholder{
     color: #fff;
   }
+
+
 </style>
